@@ -43,7 +43,7 @@ image_rgb = ax1.imshow(get_video(), interpolation='nearest', animated=True)
 # mp.colorbar()
 print('Press Ctrl-C in terminal to stop')
 signal.signal(signal.SIGINT, handler)
-
+loop = 1
 test = 0
 while keep_running:
     ######################################################################
@@ -65,8 +65,11 @@ while keep_running:
     ## Mean and tolerance values test the depth matrix (if inside True, if not False)
     ######################################################################
     mn = 100
-    tol = 50
+    tol = 30
     test = (abs(depth-mn) <= tol)
+
+    # loc = where(abs(depth-mn) <= tol)
+
 
     ######################################################################
     ## For loop to save the location of pixel for each true value
@@ -85,10 +88,16 @@ while keep_running:
     ######################################################################
     ## Create rectangle surrounding the object and find its median point
     ######################################################################
-    xmin = min(xx)
-    xmax = max(xx)
-    ymin = min(yy)
-    ymax = max(yy)
+    try:
+        xmin = min(xx)
+        xmax = max(xx)
+        ymin = min(yy)
+        ymax = max(yy)
+    except:
+        xmin = 0.0
+        xmax = 1.0
+        ymin = 0.0
+        ymax = 1.0
 
     verts = [
         (ymin, xmin), # left, bottom
@@ -110,17 +119,17 @@ while keep_running:
     x0 = median(yy)
 
     # rgb2 = rgb[:, :, 1]
-    #
-    # sio.savemat('rgb.mat', {'rgb': rgb})
-    # sio.savemat('depth.mat', {'depth': depth})
+    loop += 1
+    sio.savemat('rgb' + str(loop) + '.mat', {'rgb': rgb})
+    sio.savemat('depth' + str(loop) + '.mat', {'depth': depth})
     #
     ######################################################################
     ## Plotting depth image
     ######################################################################
     # fig = plt.figure(1)
     ax0 = fig.add_subplot(121)
-    ax0.image_depth.set_data(depth)
-    # ax0.imshow(depth)
+    # ax0.image_depth.set_data(depth)
+    ax0.imshow(depth)
     ax0.set_xlim(0,640)
     ax0.set_ylim(480,0)
 
@@ -136,8 +145,8 @@ while keep_running:
     ## Plotting rgb image
     ######################################################################
     ax1 = fig.add_subplot(122)
-    ax1.image_rgb.set_data(rgb2)
-    # ax1.imshow(rgb)
+    # ax1.image_rgb.set_data(rgb)
+    ax1.imshow(rgb)
     ax1.set_xlim(0,640)
     ax1.set_ylim(480,0)
 
@@ -171,5 +180,5 @@ while keep_running:
     # figure(3)
 
     plt.waitforbuttonpress(0.01)
-    # time.sleep(1)
+    time.sleep(5)
 

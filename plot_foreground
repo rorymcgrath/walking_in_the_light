@@ -93,16 +93,16 @@ patch1 = patches.PathPatch(path, facecolor='none', lw=2)
 ax1.add_patch(patch1)
 
 #remove dots and squares
-patch0.remove()
-patch1.remove()
-l0 = lines0.pop(0)
-l1 = lines1.pop(0)
-l0.remove()
-l1.remove()
-
-
-
-ax1.plot(x0+10,y0+10, 'go')
+# patch0.remove()
+# patch1.remove()
+# l0 = lines0.pop(0)
+# l1 = lines1.pop(0)
+# l0.remove()
+# l1.remove()
+#
+#
+#
+# ax1.plot(x0+10,y0+10, 'go')
 
 plt.show()
 
